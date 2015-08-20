@@ -1,4 +1,4 @@
-{application, erld, [
+{application, erld_erlang_app, [
 	{description, "Erlang UNIX daemon wrapper."},
 	{vsn, "1.0.0"},
 	{modules, []},
