@@ -1,7 +1,7 @@
 {application, erld_erlang_app, [
 	{description, "Erlang UNIX daemon wrapper."},
 	{vsn, "1.0.0"},
-	{modules, []},
+	{modules, [erld, erld_app, erld_heartbeat, erld_remote]},
 	{registered, []},
 	{applications, [
 		kernel,
