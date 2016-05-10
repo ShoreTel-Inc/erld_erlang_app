@@ -48,7 +48,7 @@ erld_heartbeat_spec() ->
 
 send() ->
 	erld:thump(),
-	Then = now(),
+	Then = erlang:monotonic_time(),
 	receive
 		stop ->
 			zombie()
@@ -56,7 +56,9 @@ send() ->
 		?HEARTBEAT_TIME * 1000 ->
 			ok
 	end,
-	case timer:now_diff(now(), Then) - (?HEARTBEAT_TIME * 1000000) of
+	TimeDiffNative = (erlang:monotonic_time() - Then),
+	TimeDiff = erlang:convert_time_unit(TimeDiffNative, native, micro_seconds),
+	case TimeDiff - erlang:convert_time_unit(?HEARTBEAT_TIME, seconds, micro_seconds) of
 		Late when Late >= ?HEARTBEAT_WARN_TIME ->
 			io:fwrite("Heartbeat will be late (I over slept!) - timeout was longer than expected - heartbeat sent late (late by: ~p warn time: ~p", [{late_by_sec, Late / 1000000}, ?HEARTBEAT_WARN_TIME]);
 		_ ->

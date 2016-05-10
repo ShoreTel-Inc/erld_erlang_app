@@ -27,9 +27,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 -module(erld_app).
 
--export([behaviour_info/1]).
+% Should return the cookie being used by the app's node.
+-callback bake_cookie() -> atom().
 
-behaviour_info(callbacks) ->
-	[{bake_cookie, 0}, {stop, 0}];
-behaviour_info(_) ->
-	undefined.
+% Called when the app is about to be stopped. The app can use this to
+% do cleanup such as stopping other apps.
+-callback stop() -> any().
